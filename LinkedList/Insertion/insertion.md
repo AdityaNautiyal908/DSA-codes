@@ -6,7 +6,7 @@ Given a Linked List, the task is to insert a new node at various positions:
 2. After a given node.
 3. At the end of the linked list.
 
-## Insertion at the Front/Beginning of Linked List
+# Insertion at the Front/Beginning of Linked List
 
 ### Approach
 
@@ -16,7 +16,8 @@ To insert a node at the start/beginning/front of a Linked List, we need to:
 2. Remove the head from the original first node of the Linked List.
 3. Make the new node as the Head of the Linked List.
 
-<img width="500px" src="https://media.geeksforgeeks.org/wp-content/uploads/     20240222162726/Insertion-at-the-Beginning-of-Singly-Linked-List.webp" alt="">
+<img width="500px" src="https://media.geeksforgeeks.org/wp-content/uploads/20240222162726/Insertion-at-the-Beginning-of-Singly-Linked-List.webp" alt="">
+
 
 # How to Insert a Node at a Specific Position in Linked List
 
