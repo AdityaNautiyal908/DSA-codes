@@ -6,6 +6,9 @@ This project is a simple implementation of a linked list data structure in C pro
 
 A linked list is a collection of nodes where each node contains a data element and a reference (link) to the next node in the sequence. Linked lists offer dynamic memory allocation, efficient insertion and deletion operations, and variable size.
 
+<img width="500px" src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20230726162542/Linked-List-Data-Structure.png" alt="Linked-list">
+
+
 ## Features
 
 - **Dynamic Size:** Linked lists allow for dynamic memory allocation, meaning elements can be added or removed without predefined size constraints.
