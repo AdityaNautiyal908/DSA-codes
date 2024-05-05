@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "traversal": "c"
+    "traversal": "c",
+    "stdlib.h": "c"
   }
 }
