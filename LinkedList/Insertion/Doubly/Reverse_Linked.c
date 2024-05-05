@@ -1,3 +1,10 @@
+/**
+ * The code defines a linked list structure, creates a linked list with three nodes, prints the
+ * original list, reverses the list, and then prints the reversed list.
+ * 
+ * @param ptr `ptr` is a pointer to the struct `node` type, which is used to traverse through the
+ * linked list and print the data stored in each node.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 

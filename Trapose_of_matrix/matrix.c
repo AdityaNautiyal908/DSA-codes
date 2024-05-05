@@ -1,3 +1,9 @@
+/**
+ * This C program takes a matrix as input, calculates its transpose, and displays both the original
+ * matrix and its transpose.
+ * 
+ * @return The program returns 0, which indicates successful execution.
+ */
 #include <stdio.h>
 
 int main(){
