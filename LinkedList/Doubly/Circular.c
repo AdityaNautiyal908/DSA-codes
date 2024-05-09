@@ -20,7 +20,18 @@ void print(struct node *ptr){
         printf("%d ",ptr->data);
         ptr=ptr->next;
     }while(ptr!=head);
+    printf("\n");
     
+}
+
+void printBackward(struct node *ptr){
+    while(ptr->next!=head){
+        ptr=ptr->next;
+    }
+    do{
+        printf("%d ",ptr->data);
+        ptr=ptr->pre;
+    }while(ptr!=head->pre);
 }
 
 int main(){
@@ -30,6 +41,7 @@ int main(){
     third=malloc(sizeof(struct node));
 
     head=first;
+    
     first->pre=NULL;
     first->data=1;
     first->next=second;
@@ -43,5 +55,6 @@ int main(){
     third->next=first;
 
     print(head);
+    printBackward(head);
     return 0;
 }
