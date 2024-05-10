@@ -53,7 +53,6 @@ int Dequeue(){
     value = Queue[Front];
     if (Front == Rear) {
         Front = Rear = -1;
-        
     } else {
     Front++;
     }
