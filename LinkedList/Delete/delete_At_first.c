@@ -1,3 +1,7 @@
+/**
+ * The above code defines a doubly linked list data structure and includes functions to print the list,
+ * add a new node at the beginning, and delete the first node.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -63,9 +67,14 @@ int main(){
     third->pre=second;
     third->next=NULL;
 
+    printf("Before adding the Element\n");
     print();
+
+    printf("After adding the Element\n");
     add_beg(4);
     print();
+
+    printf("After deleting the Element\n");
     head=del_first(head);
     print();
 
