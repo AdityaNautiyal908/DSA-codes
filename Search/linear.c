@@ -5,6 +5,9 @@
  * @return The program returns an integer value of 0, which indicates successful execution of the
  * program.
  */
+
+// Linear search using while loop
+
 #include <stdio.h>
 #define MAX 10
 

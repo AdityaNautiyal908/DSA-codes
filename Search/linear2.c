@@ -1,3 +1,6 @@
+
+// Linear search using for loop
+
 #include <stdio.h>
 #define MAX 50
 
