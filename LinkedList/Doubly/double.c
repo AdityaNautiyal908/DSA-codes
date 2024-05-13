@@ -35,7 +35,7 @@ int main(){
     ptr=head;
 
     while(ptr!=NULL){
-        printf("%d\n",ptr->data);
+        printf("%d ",ptr->data);
         ptr=ptr->next;
     }
     return 0;
