@@ -1,72 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
-typedef struct node {
-    int data;
-    struct node *pre;
-    struct node *next;
-}Node;
+#define MAX_SIZE 100
 
-Node *head, *first, *second, *third,*ptr,*NewNode,*temp;
+char stack[MAX_SIZE];
+int top = -1;
 
-void print(){
-    ptr=head;
-    while(ptr!=NULL){
-        printf("%d ",ptr->data);
-        ptr=ptr->next;
+void push(char c) {
+    if (top == MAX_SIZE - 1) {
+        printf("Stack Overflow\n");
+        exit(1);
     }
-    printf("\n");
+    stack[++top] = c;
 }
 
-Node* del_first(Node *head){
-    if(head==NULL){
-        printf("List is empty\n");
+char pop() {
+    if (top == -1) {
+        printf("Stack Underflow\n");
+        exit(1);
     }
-
-    else {
-        temp=head;
-        head=head->next;
-        free(temp);
-        temp=NULL;
-    }
-    return head;
+    return stack[top--];
 }
 
-void add_beg(int data){
-    NewNode=malloc(sizeof(Node));
-    NewNode->data=data;
-    temp=NewNode;
-
-    head->pre=temp;
-    temp->pre=NULL;
-    temp->next=head;
-    head=temp;
-
+int precedence(char c) {
+    if (c == '+' || c == '-')
+        return 1;
+    else if (c == '*' || c == '/')
+        return 2;
+    else if (c == '^')
+        return 3;
+    else
+        return -1; // For '(' and ')'
 }
 
-int main(){
-    first=malloc(sizeof(Node));
-    second=malloc(sizeof(Node));
-    third=malloc(sizeof(Node));
+void reverse(char *exp) {
+    int i, j;
+    char temp;
+    for (i = 0, j = strlen(exp) - 1; i < j; i++, j--) {
+        temp = exp[i];
+        exp[i] = exp[j];
+        exp[j] = temp;
+    }
+}
 
-    head=first;
+void infixToPrefix(char *exp) {
+    char prefix[MAX_SIZE];
+    int i, j;
+    i = j = 0;
+    reverse(exp);
 
-    first->data=1;
-    first->pre=NULL;
-    first->next=second;
+    while (exp[i] != '\0') {
+        if (isalnum(exp[i])) {
+            prefix[j++] = exp[i];
+        } else if (exp[i] == ')') {
+            push(exp[i]);
+        } else if (exp[i] == '(') {
+            while (top != -1 && stack[top] != ')') {
+                prefix[j++] = pop();
+            }
+            if (top == -1) {
+                printf("Invalid expression: Unbalanced parentheses\n");
+                exit(1);
+            }
+            pop(); // Discard the ')'
+        } else {
+            while (top != -1 && precedence(stack[top]) > precedence(exp[i])) {
+                prefix[j++] = pop();
+            }
+            push(exp[i]);
+        }
+        i++;
+    }
 
-    second->data=2;
-    second->pre=first;
-    second->next=third;
+    while (top != -1) {
+        if (stack[top] == ')') {
+            printf("Invalid expression: Unbalanced parentheses\n");
+            exit(1);
+        }
+        prefix[j++] = pop();
+    }
+    prefix[j] = '\0';
+    printf("Prefix expression: ");
+    reverse(prefix);
+    printf("%s\n", prefix);
+}
 
-    third->data=3;
-    third->pre=second;
-    third->next=NULL;
-
-    print();
-    add_beg(4);
-    print();
-    head=del_first(head);
-    print();
-
+int main() {
+    char exp[MAX_SIZE];
+    printf("Enter infix expression: ");
+    scanf("%s", exp);
+    infixToPrefix(exp);
+    return 0;
 }
