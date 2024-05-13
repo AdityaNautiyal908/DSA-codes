@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 int main() {
-    int arr[14] = {3, 4, 27, 37, 39, 43, 58, 70, 73, 79, 83, 90, 95};
+    int arr[13] = {3, 4, 27, 37, 39, 43, 58, 70, 73, 79, 83, 90, 95};
     int Beg = 0; // Start index
-    int End = 13; // End index
+    int End = 12; // End index
     int Mid;
     int loc = -1; // Initialize the location to -1
     int item = 70;
