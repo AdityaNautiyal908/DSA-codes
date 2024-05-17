@@ -67,7 +67,7 @@ void create(){
     printf("Enter the size of array : ");
     scanf("%d",&size);
     printf("Enter the array element : \n");
-    for(int i=0; i<size; i++){
+    for(int i=1; i<=size; i++){
         scanf("%d",&A[i]);
     }
 }
@@ -75,7 +75,7 @@ void create(){
 void display(){
     system("cls");
     printf("Array element : ");
-    for(int i=0; i<size; i++){
+    for(int i=1; i<=size; i++){
         printf("%d ",A[i]);
     }
 }
@@ -100,7 +100,7 @@ void delete(){
     scanf("%d",&pos);
     item=A[pos];
 
-    for(int i=pos; i<size-1; i++){
+    for(int i=pos; i<size; i++){
         A[i]=A[i+1];
     }
     size--;
@@ -108,7 +108,7 @@ void delete(){
 
 void reverse(){
     printf("Reverse order\n");
-    for(int i=size-1; i>=0; i--){
+    for(int i=size; i>=1; i--){
         printf("%d ",A[i]);
     }
 }
