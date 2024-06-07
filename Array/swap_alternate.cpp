@@ -22,9 +22,9 @@ int main(){
     int even[8] = {1,2,3,4,5,6,7,8};
     int odd[5] = {4,5,6,2,3};
 
-    swap_alternate(odd,5);
 
-    printArray(odd,5);
+    swap_alternate(even,8);
+    printArray(even,8);
 
 return 0;
 }
