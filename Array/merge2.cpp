@@ -28,7 +28,7 @@ void print(vector<int> &ans, int size) {
 
 int main() {
     vector<int> nums1 = {1, 2, 3, 0, 0, 0};
-    vector<int> nums2 = {2, 5, 6};
+    vector<int> nums2 = {1, 2, 3};
 
     merge(nums1, 3, nums2, 3);
     print(nums1, 6);
