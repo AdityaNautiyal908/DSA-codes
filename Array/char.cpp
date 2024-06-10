@@ -2,20 +2,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+char toLowerCase(char ch) {
+    if (ch >= 'a' && ch <= 'z')
+        return ch;
+    else if (ch >= 'A' && ch <= 'Z')
+        return ch - 'A' + 'a';
+    return ch;
+}   
+
+bool isAlphanumeric(char ch) {
+    return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9');
+}
+
+
 bool Palindrome(char a[],int n){
     int s = 0;
-    int e = n-1;
+    int e = n - 1;
 
-    while(s<=e){
-        if(a[s] != a[e]){
-            return 0;
+    while (s <= e) {
+        while (s < e && !isAlphanumeric(a[s])) 
+        s++;
+        while (e > s && !isAlphanumeric(a[e])) 
+        e--;
+
+        if (toLowerCase(a[s]) != toLowerCase(a[e])) {
+            return false;
         }
-        else {
-            s++;
-            e--;
-        }
+        s++;
+        e--;
     }
-    return 1;
+    return true;
+
 }
 
 int getlength(char name[]){
@@ -42,9 +59,9 @@ void print(char name[], int size){
 }
 
 int main() {
-    char name[20];
+    char name[40];
     cout << " Enter your name : ";
-    cin >> name;
+    cin.getline(name,40);
 
     int len = getlength(name);
 
@@ -58,5 +75,8 @@ int main() {
     print(name,len);
 
     cout << " Palindrome or Not : " << Palindrome(name,len) << endl;
+
+
+
     return 0;
 }

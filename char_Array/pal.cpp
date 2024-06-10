@@ -1,6 +1,12 @@
 #include <iostream>
 using namespace std;
 
+void toLowerCase(char str[], int size) {
+    for (int i = 0; i < size; i++) {
+        str[i] = tolower(str[i]);
+    }
+}
+
 bool Palindrome(char a[],int n){
     int s = 0;
     int e = n-1;
@@ -18,7 +24,7 @@ bool Palindrome(char a[],int n){
 }
 
 int main(){
-    char name [] = {'E','E', 'V','E','E','E'};
+    char name [] = {'E','E', 'V','E','E'};
     cout << " Palindrome or Not : "<< Palindrome(name,5);
 
 
