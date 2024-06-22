@@ -3,7 +3,6 @@ import numpy as np
 import mediapipe as mp
 import tkinter as tk
 from tkinter import Button, Scale, Label, HORIZONTAL
-
 import threading
 import time
 
@@ -44,8 +43,6 @@ def start_drawing():
     global drawing_points, canvas, mode, is_running, undo_stack, redo_stack
     cap = cv2.VideoCapture(0)
     pinching = False  # Flag to track pinching gesture
-    last_snap_time = 0  # Time of the last snap
-    snap_count = 0  # Number of snaps detected
     cursor_pos = (0, 0)  # Initialize cursor position
 
     while is_running and cap.isOpened():
