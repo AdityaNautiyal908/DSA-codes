@@ -31,7 +31,7 @@ void push(int data){
         printf("Stack overflow");
         return;
     }
-    top = top + 1;
+    top++;
     arr_stack[top]= data;
 }
 
@@ -43,7 +43,7 @@ int pop(){
     }
 
     value = arr_stack[top];
-    top = top - 1;
+    top--;
     return value;
 }
 

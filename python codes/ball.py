@@ -1,5 +1,5 @@
 import pygame
-import random
+import numpy as np
 import sys
 
 # Initialize pygame
@@ -8,28 +8,63 @@ pygame.init()
 # Screen dimensions
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Bounce the Ball to Hit the Bubble")
+pygame.display.set_caption("Rubik's Cube Solver Game")
 
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+ORANGE = (255, 165, 0)
 
-# Ball properties
-ball_radius = 15
-ball_x = WIDTH // 2
-ball_y = HEIGHT // 2
-ball_speed = 5
+# Rubik's Cube colors
+colors = [WHITE, RED, GREEN, BLUE, YELLOW, ORANGE]
 
-# Bubble properties
-bubble_radius = 20
-bubble_x = random.randint(bubble_radius, WIDTH - bubble_radius)
-bubble_y = random.randint(bubble_radius, HEIGHT - bubble_radius)
+# Initialize Rubik's Cube
+cube = np.zeros((6, 3, 3), dtype=int)
+for i in range(6):
+    cube[i] = i
 
-# Font for score
-font = pygame.font.Font(None, 36)
-score = 0
+# Draw a single face of the cube
+def draw_face(surface, face, x, y, size):
+    for i in range(3):
+        for j in range(3):
+            color = colors[face[i, j]]
+            pygame.draw.rect(surface, color, (x + j * size, y + i * size, size, size))
+            pygame.draw.rect(surface, BLACK, (x + j * size, y + i * size, size, size), 1)
+
+# Draw the entire cube
+def draw_cube(surface, cube, x, y, size):
+    # Front face
+    draw_face(surface, cube[0], x + size, y + size, size)
+    # Top face
+    draw_face(surface, cube[1], x + size, y, size)
+    # Left face
+    draw_face(surface, cube[2], x, y + size, size)
+    # Right face
+    draw_face(surface, cube[3], x + 2 * size, y + size, size)
+    # Bottom face
+    draw_face(surface, cube[4], x + size, y + 2 * size, size)
+    # Back face
+    draw_face(surface, cube[5], x + 3 * size, y + size, size)
+
+# Function to rotate a face clockwise
+def rotate_face(face):
+    return np.rot90(face, -1)
+
+# Function to rotate a face counterclockwise
+def rotate_face_counter(face):
+    return np.rot90(face, 1)
+
+# Function to apply a move to the cube
+def apply_move(cube, move):
+    if move == 'F':
+        cube[0] = rotate_face(cube[0])
+    elif move == 'F\'':
+        cube[0] = rotate_face_counter(cube[0])
+    # Implement other moves as needed
 
 # Main game loop
 running = True
@@ -37,54 +72,23 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
-    # Get key states
-    keys = pygame.key.get_pressed()
-    
-    # Move the ball based on arrow key inputs
-    if keys[pygame.K_LEFT]:
-        ball_x -= ball_speed
-    if keys[pygame.K_RIGHT]:
-        ball_x += ball_speed
-    if keys[pygame.K_UP]:
-        ball_y -= ball_speed
-    if keys[pygame.K_DOWN]:
-        ball_y += ball_speed
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_f:
+                apply_move(cube, 'F')
+            elif event.key == pygame.K_g:
+                apply_move(cube, 'F\'')
 
-    # Ball collision with walls
-    if ball_x - ball_radius <= 0:
-        ball_x = ball_radius
-    if ball_x + ball_radius >= WIDTH:
-        ball_x = WIDTH - ball_radius
-    if ball_y - ball_radius <= 0:
-        ball_y = ball_radius
-    if ball_y + ball_radius >= HEIGHT:
-        ball_y = HEIGHT - ball_radius
-
-    # Ball collision with bubble
-    if (ball_x - bubble_x) ** 2 + (ball_y - bubble_y) ** 2 <= (ball_radius + bubble_radius) ** 2:
-        score += 1
-        bubble_x = random.randint(bubble_radius, WIDTH - bubble_radius)
-        bubble_y = random.randint(bubble_radius, HEIGHT - bubble_radius)
-    
     # Clear screen
     screen.fill(BLACK)
     
-    # Draw ball
-    pygame.draw.circle(screen, BLUE, (ball_x, ball_y), ball_radius)
-    
-    # Draw bubble
-    pygame.draw.circle(screen, RED, (bubble_x, bubble_y), bubble_radius)
-    
-    # Draw score
-    score_text = font.render(f"Score: {score}", True, WHITE)
-    screen.blit(score_text, (10, 10))
+    # Draw the Rubik's Cube
+    draw_cube(screen, cube, 200, 100, 50)
     
     # Update display
     pygame.display.flip()
     
     # Frame rate
-    pygame.time.Clock().tick(60)
+    pygame.time.Clock().tick(30)
 
 # Quit pygame
 pygame.quit()
