@@ -1,95 +1,116 @@
 import pygame
-import numpy as np
-import sys
+import time
+import random
 
 # Initialize pygame
 pygame.init()
 
-# Screen dimensions
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Rubik's Cube Solver Game")
+# Set up display
+WIDTH, HEIGHT = 600, 400
+window = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Snake Game")
 
-# Colors
+# Define colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-RED = (255, 0, 0)
 GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-ORANGE = (255, 165, 0)
+RED = (255, 0, 0)
 
-# Rubik's Cube colors
-colors = [WHITE, RED, GREEN, BLUE, YELLOW, ORANGE]
+# Set up clock
+clock = pygame.time.Clock()
+SNAKE_SPEED = 15
 
-# Initialize Rubik's Cube
-cube = np.zeros((6, 3, 3), dtype=int)
-for i in range(6):
-    cube[i] = i
+# Snake and food parameters
+SNAKE_SIZE = 10
+FOOD_SIZE = 10
 
-# Draw a single face of the cube
-def draw_face(surface, face, x, y, size):
-    for i in range(3):
-        for j in range(3):
-            color = colors[face[i, j]]
-            pygame.draw.rect(surface, color, (x + j * size, y + i * size, size, size))
-            pygame.draw.rect(surface, BLACK, (x + j * size, y + i * size, size, size), 1)
+font_style = pygame.font.SysFont(None, 35)
 
-# Draw the entire cube
-def draw_cube(surface, cube, x, y, size):
-    # Front face
-    draw_face(surface, cube[0], x + size, y + size, size)
-    # Top face
-    draw_face(surface, cube[1], x + size, y, size)
-    # Left face
-    draw_face(surface, cube[2], x, y + size, size)
-    # Right face
-    draw_face(surface, cube[3], x + 2 * size, y + size, size)
-    # Bottom face
-    draw_face(surface, cube[4], x + size, y + 2 * size, size)
-    # Back face
-    draw_face(surface, cube[5], x + 3 * size, y + size, size)
+def message(msg, color):
+    mesg = font_style.render(msg, True, color)
+    window.blit(mesg, [WIDTH / 6, HEIGHT / 3])
 
-# Function to rotate a face clockwise
-def rotate_face(face):
-    return np.rot90(face, -1)
+def draw_snake(snake_list):
+    for x in snake_list:
+        pygame.draw.circle(window, WHITE, (x[0] + SNAKE_SIZE // 2, x[1] + SNAKE_SIZE // 2), SNAKE_SIZE // 2)
 
-# Function to rotate a face counterclockwise
-def rotate_face_counter(face):
-    return np.rot90(face, 1)
+def game_loop():
+    game_over = False
+    game_close = False
 
-# Function to apply a move to the cube
-def apply_move(cube, move):
-    if move == 'F':
-        cube[0] = rotate_face(cube[0])
-    elif move == 'F\'':
-        cube[0] = rotate_face_counter(cube[0])
-    # Implement other moves as needed
+    x1 = WIDTH / 2
+    y1 = HEIGHT / 2
 
-# Main game loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_f:
-                apply_move(cube, 'F')
-            elif event.key == pygame.K_g:
-                apply_move(cube, 'F\'')
+    x1_change = 0
+    y1_change = 0
 
-    # Clear screen
-    screen.fill(BLACK)
-    
-    # Draw the Rubik's Cube
-    draw_cube(screen, cube, 200, 100, 50)
-    
-    # Update display
-    pygame.display.flip()
-    
-    # Frame rate
-    pygame.time.Clock().tick(30)
+    snake_List = []
+    Length_of_snake = 1
 
-# Quit pygame
-pygame.quit()
-sys.exit()
+    foodx = round(random.randrange(0, WIDTH - SNAKE_SIZE) / 10.0) * 10.0
+    foody = round(random.randrange(0, HEIGHT - SNAKE_SIZE) / 10.0) * 10.0
+
+    while not game_over:
+
+        while game_close:
+            window.fill(BLACK)
+            message("You Lost! Press Q-Quit or C-Play Again", RED)
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        game_over = True
+                        game_close = False
+                    if event.key == pygame.K_c:
+                        game_loop()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_over = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    x1_change = -SNAKE_SIZE
+                    y1_change = 0
+                elif event.key == pygame.K_RIGHT:
+                    x1_change = SNAKE_SIZE
+                    y1_change = 0
+                elif event.key == pygame.K_UP:
+                    y1_change = -SNAKE_SIZE
+                    x1_change = 0
+                elif event.key == pygame.K_DOWN:
+                    y1_change = SNAKE_SIZE
+                    x1_change = 0
+
+        if x1 >= WIDTH or x1 < 0 or y1 >= HEIGHT or y1 < 0:
+            game_close = True
+        x1 += x1_change
+        y1 += y1_change
+        window.fill(BLACK)
+        pygame.draw.circle(window, GREEN, (int(foodx + FOOD_SIZE / 2), int(foody + FOOD_SIZE / 2)), FOOD_SIZE // 2)
+        snake_Head = []
+        snake_Head.append(x1)
+        snake_Head.append(y1)
+        snake_List.append(snake_Head)
+        if len(snake_List) > Length_of_snake:
+            del snake_List[0]
+
+        for x in snake_List[:-1]:
+            if x == snake_Head:
+                game_close = True
+
+        draw_snake(snake_List)
+
+        pygame.display.update()
+
+        if x1 == foodx and y1 == foody:
+            foodx = round(random.randrange(0, WIDTH - SNAKE_SIZE) / 10.0) * 10.0
+            foody = round(random.randrange(0, HEIGHT - SNAKE_SIZE) / 10.0) * 10.0
+            Length_of_snake += 1
+
+        clock.tick(SNAKE_SPEED)
+
+    pygame.quit()
+    quit()
+
+game_loop()
