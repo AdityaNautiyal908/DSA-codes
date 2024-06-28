@@ -16,7 +16,7 @@ void Selection_Sort (vector <int> &v , int n) {
 
 int main(){
     int n = 5;
-    vector<int> v = {50,40,30,20,10};    
+    vector<int> v = {50,40,30,10,10};    
     Selection_Sort(v,n);
 
     cout << " Selection Sort : " << endl;
