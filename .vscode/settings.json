@@ -10,6 +10,9 @@
     "bitset": "cpp",
     "regex": "cpp",
     "valarray": "cpp",
-    "string": "cpp"
-  }
+    "string": "cpp",
+    "algorithm": "cpp",
+    "unordered_map": "cpp"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
