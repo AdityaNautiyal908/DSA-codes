@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
 class node {
@@ -31,10 +32,83 @@ node* buildTree(node *root){
     return root;
 }
 
+void levelOrderTraversal(node* root){
+    queue<node*> q;
+    q.push(root);
+    q.push(NULL);
+    while(!q.empty()){
+        node* temp = q.front();
+        q.pop();
+
+        if(temp == nullptr){
+            cout << endl;
+            if(!q.empty()){
+                q.push(NULL);
+            }
+        }
+
+        else {
+        cout << temp->data << " ";
+        if(temp ->left){
+            q.push(temp->left);
+        }
+        if(temp ->right){
+            q.push(temp->right);
+        }
+        }
+    }
+}
+
+void inorder(node* root) {
+    // base case
+    if( root == NULL) return;
+
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+void preorder(node* root){
+    // base case
+    if(root == NULL) return;
+
+    cout << root->data << " ";
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void postorder(node* root) {
+    // base case
+    if(root == nullptr) return;
+
+    postorder(root->left);
+    postorder(root->right);
+    cout << root->data << " ";
+}
+
 int main(){
     node *root = NULL;
 
     //creating a tree
     root = buildTree(root);
+    // 1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1 
+    // level order Traversal
+
+    cout << " Printing the level of level order Traversal" << endl;
+    levelOrderTraversal(root);
+
+    cout << " inorder Traversal is : " << endl;
+    inorder(root);
+
+    cout << endl;
+
+    cout << " Preorder Traversal is : " << endl;
+    preorder(root);
+
+    cout << endl;
+    
+    cout << " Postorder Traversal is : " << endl;
+    postorder(root);
+
 return 0;
 }
