@@ -12,8 +12,7 @@ int maxSumSubarray(vector<int> arr, int k){
     int windowSum = 0;
 
     // Calculate the sum of first window
-    windowSum = accumulate(arr.begin(), arr.begin()+k,0);
-    
+    windowSum = accumulate(arr.begin(), arr.begin()+k,0);    
     maxSum = windowSum;
 
     // Slide the window from the k-th element to the end of the array
@@ -26,8 +25,8 @@ int maxSumSubarray(vector<int> arr, int k){
 }
 
 int main(){
-    vector<int> arr = {1, 4, 2, 10, 23, 3, 1, 0, 20};
-    int k = 4;
+    vector<int> arr = {5};
+    int k = 1;
     cout << "The maximum sum of a subarray of size " << k << " is: " 
     << maxSumSubarray(arr, k) << endl;
 return 0;
