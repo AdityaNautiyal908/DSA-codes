@@ -95,7 +95,7 @@ public:
 
     void printLinked() {
         Node *ptr = head;
-        while (ptr != nullptr) {
+        while (ptr) {
             cout << ptr->data << " ";
             ptr = ptr->next;
         }

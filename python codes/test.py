@@ -1,10 +1,12 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TensorFlow warnings
+
 import cv2
 import numpy as np
 import mediapipe as mp
 import tkinter as tk
 from tkinter import Button, Scale, Label, HORIZONTAL
 import threading
-import time
 
 # Initialize MediaPipe Hand model
 mp_hands = mp.solutions.hands
@@ -76,14 +78,15 @@ def start_drawing():
 
                 # Detect pinch gesture for drawing
                 if np.linalg.norm(np.array([mapped_ix, mapped_iy]) - np.array([mapped_tx, mapped_ty])) < 20:
+                    if not pinching:  # Start a new stroke
+                        drawing_points.append((mapped_ix, mapped_iy))
+                    else:  # Continue the stroke
+                        drawing_points.append((mapped_ix, mapped_iy))
                     pinching = True
-                    drawing_points.append((mapped_ix, mapped_iy))
                 else:
+                    if pinching:  # End the stroke
+                        drawing_points.append(None)
                     pinching = False
-                    drawing_points.append(None)
-
-        else:
-            drawing_points.append(None)
 
         # Draw on canvas
         draw_on_canvas(drawing_points, canvas, mode)
@@ -199,8 +202,4 @@ clear_button = Button(root, text="Clear Canvas", command=clear_canvas)
 clear_button.pack(pady=10)
 
 # Create and place a button to switch off the application
-switch_off_button = Button(root, text="Switch Off", command=stop_application)
-switch_off_button.pack(pady=10)
-
-# Run the Tkinter main loop
-root.mainloop()
+switch_off_button = Button
