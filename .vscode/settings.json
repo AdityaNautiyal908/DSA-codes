@@ -20,7 +20,10 @@
     "xhash": "cpp",
     "xtree": "cpp",
     "xutility": "cpp",
-    "numeric": "cpp"
+    "numeric": "cpp",
+    "exception": "cpp",
+    "memory": "cpp",
+    "tuple": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
